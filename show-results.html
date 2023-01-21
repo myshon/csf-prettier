@@ -1,0 +1,96 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/chart.umd.js" integrity="sha512-B51MzT4ksAo6Y0TcUpmvZnchoPYfIcHadIaFqV5OR5JAh6dneYAeYT1xIlaNHhhFAALd5FLDTWNt/fkxhwE/oQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/helpers.js" integrity="sha512-vIxnRNglJBGfc2pje+iMmSKeU7kNcYUD0OkrlPyPt2R8SgWoWnkUpsGdBIZ2jktUDhDoi3/AlH/QKTi1f75RmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<body>
+  <div>
+    <canvas id="myChart" width="400" height="400"></canvas>
+  </div>
+</body>
+<script>
+    window.chartColors = {
+	    red: 'rgb(255, 99, 132)',
+	    orange: 'rgb(255, 159, 64)',
+	    yellow: 'rgb(255, 205, 86)',
+	    green: 'rgb(75, 192, 192)',
+	    blue: 'rgb(54, 162, 235)',
+	    purple: 'rgb(153, 102, 255)',
+	    grey: 'rgb(201, 203, 207)'
+    };
+
+    function randomScalingFactor() {
+	    return Math.round(Math.random() * 100);
+    }
+    
+    var color = Chart.helpers.color;
+    var scatterChartData = {
+        datasets: [{
+            label: 'My First dataset',
+            borderColor: window.chartColors.red,
+            backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
+            data: [{
+                x: 0,
+                y: 0,
+                key: 'test',
+                name: 'test',
+                label: 'test'
+            }, {
+                x: randomScalingFactor(),
+                y: randomScalingFactor(),
+            }, {
+                x: -randomScalingFactor(),
+                y: -randomScalingFactor(),
+            }, {
+                x: randomScalingFactor(),
+                y: randomScalingFactor(),
+            }, {
+                x: -randomScalingFactor(),
+                y: -randomScalingFactor(),
+            }, {
+                x: randomScalingFactor(),
+                y: randomScalingFactor(),
+            }, {
+                x: -randomScalingFactor(),
+                y: -randomScalingFactor(),
+            }]
+        }, {
+            label: 'My Second dataset',
+            borderColor: window.chartColors.blue,
+            backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
+            data: [{
+                x: -randomScalingFactor(),
+                y: -randomScalingFactor(),
+            }, {
+                x: randomScalingFactor(),
+                y: randomScalingFactor(),
+            }, {
+                x: -randomScalingFactor(),
+                y: -randomScalingFactor(),
+            }, {
+                x: randomScalingFactor(),
+                y: randomScalingFactor(),
+            }, {
+                x: -randomScalingFactor(),
+                y: -randomScalingFactor(),
+            }, {
+                x: randomScalingFactor(),
+                y: randomScalingFactor(),
+            }, {
+                x: -randomScalingFactor(),
+                y: -randomScalingFactor(),
+            }]
+        }]
+    };
+
+    window.onload = function() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        window.myScatter = new Chart(ctx, {
+            type: 'scatter',
+            data: scatterChartData,
+            options: {
+                title: {
+                    display: true,
+                    text: 'Chart.js Scatter Chart'
+                },
+            }
+        });
+    };
+</script>

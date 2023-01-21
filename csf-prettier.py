@@ -44,9 +44,9 @@ traits_style = {
 
 long_answer_prefixes = [
     [ "wykorzystanie energii", "odkrywanie nowych", "kontakty z innymi", "wykorzystanie logiki"], 
-    [ "spędzamy zbyt dużo czasu", "przywiązujemy się do starych sposobów", "pomijane są ludzkie aspekty", "nie poświęciliśmy dużo czasu"], 
-    [ "osiągnięcie celu", "możliwy przyszły wpływ", "wpływ na innych ludzi", "konsekwencję"],
-    [ "w wyniku spóżnionego działania", "wykonałem/am coś, a potem", "wyrządzam innym przykrość", "przeoczyłem/am kilka istotnych faktów"] 
+    [ "spędzamy zbyt dużo czasu", "przywiązujemy się do starych sposobów", "pomijane są ludzkie aspekty", "nie poświęciliśmy wystarczająco dużo czasu"], 
+    [ "osiągnięcie celu dowolnymi środkami", "możliwy przyszły wpływ", "wpływ na innych ludzi", "konsekwencję, systematyczność"],
+    [ "w wyniku spóźnionego działania", "wykonałem/am coś", "wyrządzam innym przykrość", "przeoczyłem/am kilka istotnych faktów"] 
 ]
 
 c_driver = "Driver"
@@ -80,7 +80,7 @@ def tranform_y(y, style, value):
         return y+value
 
 
-with open('results3.csv', "r", encoding='utf-8-sig') as csv_file:
+with open('results.csv', "r", encoding='utf-8-sig') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=';')
     line_count = 0
     for row in csv_reader:
@@ -103,9 +103,9 @@ with open('results3.csv', "r", encoding='utf-8-sig') as csv_file:
             header = row
             line_count += 1
         else:
-            print(f'\n{row[0]}')
+            print(f'\n{row[5]}')
 
-            for i in range(1,16):
+            for i in range(6,21):
                 answer = row[i]
                 trait = header[i]
                 style = traits_style[trait]
@@ -119,13 +119,14 @@ with open('results3.csv', "r", encoding='utf-8-sig') as csv_file:
             print(f'Short questions (x,y): {x_axis_yd, y_axis_ro}')
 
 
-            starting_index = 17
+            starting_index = 22
             long_questions_count = 4
             for i in range(starting_index,starting_index + long_questions_count - 1):
                 long_answer = row[i].split(";")
                 
                 questions_num = i - starting_index
                 answer_boost = 3
+                prefixes_found = []
                 for answer in long_answer:
                     prefixes = long_answer_prefixes[questions_num]
 
@@ -138,10 +139,15 @@ with open('results3.csv', "r", encoding='utf-8-sig') as csv_file:
                         if answer.lower().startswith(prefix):
                             style = styles[prefixes.index(prefix)]
                             results_values[style] += answer_boost
+                            prefixes_found.append(prefix)
                             break
 
                     answer_boost -= 1
 
+                if len(prefixes_found) < 4:
+                    diff = prefixes.remove(prefixes_found)
+                    raise Exception('prefix not found {diff}')
+                    
             line_count += 1
 
             for key in results_values:
@@ -149,7 +155,19 @@ with open('results3.csv', "r", encoding='utf-8-sig') as csv_file:
                 x_axis_yd = tranform_x(x_axis_yd, key, results_values[key])
                 y_axis_ro = tranform_y(y_axis_ro, key, results_values[key])
 
-            
             print(f'Short+Long questions (x,y): {x_axis_yd, y_axis_ro}')
 
-    print(f'Processed {line_count} lines.')
+            if x_axis_yd > 0 and y_axis_ro > 0:
+                print(f'{c_driver}')
+
+            if x_axis_yd > 0 and y_axis_ro < 0:
+                print(f'{c_expressive}')
+
+            if x_axis_yd < 0 and y_axis_ro > 0:
+                print(f'{c_analytical}')
+
+            if x_axis_yd < 0 and y_axis_ro < 0:
+                print(f'{c_amiable}')
+
+    print(f'\n')
+    print(f'\tProcessed {line_count} lines.')
