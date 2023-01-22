@@ -80,9 +80,21 @@ def tranform_y(y, style, value):
         return y+value
 
 
+results = {
+    c_driver : [],
+    c_amiable : [],
+    c_expressive : [],
+    c_analytical : []
+}
+
+def complete(style, x, y):
+    results[style].append((x, y))
+    print(f'{style}')
+
 with open('results.csv', "r", encoding='utf-8-sig') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=';')
     line_count = 0
+
     for row in csv_reader:
 
         style_counter = {
@@ -114,9 +126,9 @@ with open('results.csv', "r", encoding='utf-8-sig') as csv_file:
             for key in style_counter:
                 print(f'{key}: {style_counter[key]}')
 
-            x_axis_yd = style_counter[c_dominant] - style_counter[c_yield]
-            y_axis_ro = style_counter[c_reserved] - style_counter[c_open]
-            print(f'Short questions (x,y): {x_axis_yd, y_axis_ro}')
+            axis_x = style_counter[c_dominant] - style_counter[c_yield]
+            axis_y = style_counter[c_reserved] - style_counter[c_open]
+            print(f'Short questions (x,y): {axis_x, axis_y}')
 
 
             starting_index = 22
@@ -152,22 +164,39 @@ with open('results.csv', "r", encoding='utf-8-sig') as csv_file:
 
             for key in results_values:
                 print(f'{key} {results_values[key]}')
-                x_axis_yd = tranform_x(x_axis_yd, key, results_values[key])
-                y_axis_ro = tranform_y(y_axis_ro, key, results_values[key])
+                axis_x = tranform_x(axis_x, key, results_values[key])
+                axis_y = tranform_y(axis_y, key, results_values[key])
 
-            print(f'Short+Long questions (x,y): {x_axis_yd, y_axis_ro}')
+            print(f'Short+Long questions (x,y): {axis_x, axis_y}')
 
-            if x_axis_yd > 0 and y_axis_ro > 0:
-                print(f'{c_driver}')
+            style = 'none'
 
-            if x_axis_yd > 0 and y_axis_ro < 0:
-                print(f'{c_expressive}')
+            if axis_x > 0 and axis_y > 0:
+                style = c_driver
 
-            if x_axis_yd < 0 and y_axis_ro > 0:
-                print(f'{c_analytical}')
+            if axis_x > 0 and axis_y < 0:
+                style = c_expressive
 
-            if x_axis_yd < 0 and y_axis_ro < 0:
-                print(f'{c_amiable}')
+            if axis_x <= 0 and axis_y >= 0:
+                style = c_analytical
+
+            if axis_x <= 0 and axis_y <= 0:
+                style = c_amiable
+
+            if style == 'none':
+                raise Exception(f'style {axis_x},{axis_y} for {row[5]}')
+
+            complete(style, axis_x, axis_y)
+
+    def to_json(p):
+        return f'{{ x: {p[0]}, y: {p[1]} }}';
+
+    for key in results:
+        print(f'\n{key} {len(results[key])}')
+        points = map(to_json, results[key])
+        text = ',\n'.join(points);
+        print(f'{text}')
+
 
     print(f'\n')
     print(f'\tProcessed {line_count} lines.')
