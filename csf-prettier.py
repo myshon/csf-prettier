@@ -60,6 +60,7 @@ def driver_boost(x, y, value):
     return (x+value,y+value)
 
 def tranform_x(x, style, value):
+    value = value/2
     if style == c_driver:
         return x+value
     if style == c_expressive:
@@ -70,6 +71,7 @@ def tranform_x(x, style, value):
         return x-value
     
 def tranform_y(y, style, value):
+    value = value/2
     if style == c_driver:
         return y+value
     if style == c_expressive:
@@ -87,8 +89,8 @@ results = {
     c_analytical : []
 }
 
-def complete(style, x, y):
-    results[style].append((x, y))
+def complete(name, style, x, y):
+    results[style].append((name, x, y))
     print(f'{style}')
 
 with open('results.csv', "r", encoding='utf-8-sig') as csv_file:
@@ -115,7 +117,9 @@ with open('results.csv', "r", encoding='utf-8-sig') as csv_file:
             header = row
             line_count += 1
         else:
-            print(f'\n{row[5]}')
+            name = row[5]
+
+            print(f'\n{name}')
 
             for i in range(6,21):
                 answer = row[i]
@@ -186,15 +190,24 @@ with open('results.csv', "r", encoding='utf-8-sig') as csv_file:
             if style == 'none':
                 raise Exception(f'style {axis_x},{axis_y} for {row[5]}')
 
-            complete(style, axis_x, axis_y)
+            complete(name, style, axis_x, axis_y)
 
     def to_json(p):
-        return f'{{ x: {p[0]}, y: {p[1]} }}';
+        return f'{{ x: {p[1]}, y: {p[2]} }}'
+
+    def to_csv_with_name(p):
+        return f'{p[0]};{p[1]};{p[2]}'
 
     for key in results:
         print(f'\n{key} {len(results[key])}')
         points = map(to_json, results[key])
         text = ',\n'.join(points);
+        print(f'{text}')
+
+    for key in results:
+        print(f'\n{key} {len(results[key])}')
+        points = map(to_csv_with_name, results[key])
+        text = ',\n'.join(points)
         print(f'{text}')
 
 

@@ -1,85 +1,110 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/chart.umd.js" integrity="sha512-B51MzT4ksAo6Y0TcUpmvZnchoPYfIcHadIaFqV5OR5JAh6dneYAeYT1xIlaNHhhFAALd5FLDTWNt/fkxhwE/oQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/helpers.js" integrity="sha512-vIxnRNglJBGfc2pje+iMmSKeU7kNcYUD0OkrlPyPt2R8SgWoWnkUpsGdBIZ2jktUDhDoi3/AlH/QKTi1f75RmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/chart.umd.js"
+  integrity="sha512-B51MzT4ksAo6Y0TcUpmvZnchoPYfIcHadIaFqV5OR5JAh6dneYAeYT1xIlaNHhhFAALd5FLDTWNt/fkxhwE/oQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/helpers.js"
+  integrity="sha512-vIxnRNglJBGfc2pje+iMmSKeU7kNcYUD0OkrlPyPt2R8SgWoWnkUpsGdBIZ2jktUDhDoi3/AlH/QKTi1f75RmQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
 <body>
-  <div style="width: 75%;">
+  <div style="width: 75%">
     <canvas id="myChart" width="400" height="400"></canvas>
   </div>
 </body>
 <script>
-    window.chartColors = {
-	    red: 'rgb(255, 99, 132)',
-	    orange: 'rgb(255, 159, 64)',
-	    yellow: 'rgb(255, 205, 86)',
-	    green: 'rgb(75, 192, 192)',
-	    blue: 'rgb(54, 162, 235)',
-	    purple: 'rgb(153, 102, 255)',
-	    grey: 'rgb(201, 203, 207)'
-    };
-    
-    var color = Chart.helpers.color;
-    var scatterChartData = {
-        datasets: [{
-            label: 'Driver (2)',
-            borderColor: window.chartColors.red,
-            backgroundColor: color(window.chartColors.red).rgbString(),
-            data: [
-                { x: 10, y: 2 },
-                { x: 2, y: 20 }]
-        }, {
-            label: 'Expressive (6)',
-            borderColor: window.chartColors.yellow,
-            backgroundColor: color(window.chartColors.yellow).rgbString(),
-            data: [
-                { x: 12, y: -6 },
-                { x: 4, y: -2 },
-                { x: 10, y: -2 },
-                { x: 14, y: -24 },
-                { x: 2, y: -18 },
-                { x: 6, y: -8 }]
-        }, {
-            label: 'Analytical (8)',
-            borderColor: window.chartColors.blue,
-            backgroundColor: color(window.chartColors.blue).rgbString(),
-            data: [
-                { x: -10, y: 6 },
-                { x: -4, y: 4 },
-                { x: 0, y: 14 },
-                { x: -16, y: 10 },
-                { x: -8, y: 6 },
-                { x: -16, y: 12 },
-                { x: -4, y: 22 },
-                { x: -14, y: 12 }]
-        }, {
-            label: 'Amiable (3)',
-            borderColor: window.chartColors.green,
-            backgroundColor: color(window.chartColors.green).rgbString(),
-            data: [
-                { x: -14, y: -16 },
-                { x: -2, y: -18 },
-                { x: -6, y: 0 }]
-        }]
-    };
+  window.chartColors = {
+    red: "rgb(255, 99, 132)",
+    orange: "rgb(255, 159, 64)",
+    yellow: "rgb(255, 205, 86)",
+    green: "rgb(75, 192, 192)",
+    blue: "rgb(54, 162, 235)",
+    purple: "rgb(153, 102, 255)",
+    grey: "rgb(201, 203, 207)",
+  };
 
-    window.onload = function() {
-        var ctx = document.getElementById('myChart').getContext('2d');
-        window.myScatter = new Chart(ctx, {
-            type: 'scatter',
-            data: scatterChartData,
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                title: {
-                    display: true,
-                    text: 'Style komunikacji'
-                },
-                showLines: false,
-				scales: {
-                    x: {
-                        type: 'linear',
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
-    };
+  var color = Chart.helpers.color;
+  var scatterChartData = {
+    datasets: [
+      {
+        label: "Przywódczy (3)",
+        borderColor: window.chartColors.red,
+        backgroundColor: color(window.chartColors.red).rgbString(),
+        data: [
+          { x: 10.0, y: 1.0 },
+          { x: 2.0, y: 13.0 },
+          { x: 2.0, y: 18.0 },
+        ],
+      },
+      {
+        label: "Ekspresyjny (7)",
+        borderColor: window.chartColors.yellow,
+        backgroundColor: color(window.chartColors.yellow).rgbString(),
+        data: [
+          { x: 16.0, y: -8.0 },
+          { x: 5.0, y: -5.0 },
+          { x: 5.0, y: -2.0 },
+          { x: 12.0, y: -20.0 },
+          { x: 1.0, y: -14.0 },
+          { x: 6.0, y: -9.0 },
+          { x: 5.0, y: -11.0 },
+        ],
+      },
+      {
+        label: "Analityczny (10)",
+        borderColor: window.chartColors.blue,
+        backgroundColor: color(window.chartColors.blue).rgbString(),
+        data: [
+          { x: -9.0, y: 6.0 },
+          { x: -3.0, y: 2.0 },
+          { x: -6.0, y: 2.0 },
+          { x: -18.0, y: 9.0 },
+          { x: -5.0, y: 9.0 },
+          { x: -15.0, y: 10.0 },
+          { x: -5.0, y: 20.0 },
+          { x: -16.0, y: 11.0 },
+          { x: -4.0, y: 14.0 },
+          { x: -3.0, y: 5.0 },
+        ],
+      },
+      {
+        label: "Przyjazny (5)",
+        borderColor: window.chartColors.green,
+        backgroundColor: color(window.chartColors.green).rgbString(),
+        data: [
+          { x: -12.0, y: -11.0 },
+          { x: -1.0, y: -15.0 },
+          { x: -2.0, y: -1.0 },
+          { x: 0.0, y: -1.0 },
+          { x: -14.0, y: -2.0 },
+        ],
+      },
+    ],
+  };
+
+  window.onload = function () {
+    var ctx = document.getElementById("myChart").getContext("2d");
+    window.myScatter = new Chart(ctx, {
+      type: "scatter",
+      data: scatterChartData,
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        title: {
+          display: true,
+          text: "Style komunikacji",
+        },
+        showLines: false,
+        scales: {
+          x: {
+            type: "linear",
+            position: "bottom",
+          },
+        },
+      },
+    });
+  };
 </script>
